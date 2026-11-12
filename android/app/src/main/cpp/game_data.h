@@ -15,6 +15,7 @@ inline std::string resolveGameRoot() {
         return env;
     }
     const char* candidates[] = {
+        "/storage/emulated/10/nfsu2",
         "/sdcard/NFSU2",
         "/storage/emulated/0/NFSU2",
         "/sdcard/nfsu2",
