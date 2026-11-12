@@ -11,10 +11,15 @@
 
 inline std::string resolveGameRoot() {
     const char* env = std::getenv("NFSU2_DATA_DIR");
-    if (env && *env && access(env, R_OK) == 0) {
-        return env;
+    // 1. Trust the Java layer explicitly
+    if (env && *env) {
+        return env; 
     }
+    
+    // 2. If env is missing, try hardcoded candidates
     const char* candidates[] = {
+        "/storage/emulated/10/nfsu2", // Try User 10 first
+        "/storage/emulated/11/nfsu2", // Guest mode
         "/sdcard/NFSU2",
         "/storage/emulated/0/NFSU2",
         "/sdcard/nfsu2",
@@ -22,18 +27,6 @@ inline std::string resolveGameRoot() {
     };
     for (const char* dir : candidates) {
         std::string s1 = std::string(dir) + "/SPEED2.EXE";
-        std::string s2 = std::string(dir) + "/speed2.exe";
-        if (access(s1.c_str(), R_OK) == 0 || access(s2.c_str(), R_OK) == 0) {
-            return dir;
-        }
-    }
-    for (const char* dir : candidates) {
-        if (access(dir, R_OK) == 0) {
-            return dir;
-        }
-    }
-    return "/sdcard/NFSU2";
-}
 
 inline const std::string& getGameRoot() {
     static std::string root = resolveGameRoot();
