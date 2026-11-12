@@ -11,14 +11,16 @@
 
 inline std::string resolveGameRoot() {
     const char* env = std::getenv("NFSU2_DATA_DIR");
-    if (env && *env && access(env, R_OK) == 0) {
+    if (env && *env) {
         return env;
     }
     const char* candidates[] = {
         "/sdcard/NFSU2",
         "/storage/emulated/0/NFSU2",
         "/sdcard/nfsu2",
-        "/storage/emulated/0/nfsu2"
+        "/storage/emulated/0/nfsu2",
+        "/storage/emulated/10/nfsu2",
+        "/storage/emulated/11/nfsu2"
     };
     for (const char* dir : candidates) {
         std::string s1 = std::string(dir) + "/SPEED2.EXE";
